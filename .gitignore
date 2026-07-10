@@ -1,0 +1,35 @@
+# ==========================================
+# STM32CubeIDE Git Toolchain Ignore Template
+# ==========================================
+
+# --- Workspace & User-Specific Settings ---
+.metadata/
+RemoteSystemsTempFiles/
+.config/
+*.launch
+
+# --- Toolchain Build Outputs (Debug & Release) ---
+Debug/
+Release/
+
+# --- Object and Dependency Files ---
+*.o
+*.su
+*.d
+*.crf
+*.dep
+
+# --- Executable & Flash Binary Outputs ---
+*.elf
+*.bin
+*.hex
+*.map
+*.axf
+
+# --- CubeMX Auto-Generated Backup Files ---
+*.bak
+/MXTmpFiles/
+
+# --- Operating System Junk ---
+.DS_Store
+Thumbs.db
