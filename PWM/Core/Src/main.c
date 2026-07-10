@@ -110,14 +110,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 999);
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 255);
 	HAL_Delay(500);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 100);
 	HAL_Delay(500);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 30);
 	HAL_Delay(500);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
-	HAL_Delay(1000);
+	HAL_Delay(2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
