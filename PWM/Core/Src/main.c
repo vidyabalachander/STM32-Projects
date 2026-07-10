@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -60,8 +59,6 @@ static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM4_Init(void);
-void MX_USB_HOST_Process(void);
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -103,7 +100,6 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-  MX_USB_HOST_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
@@ -114,28 +110,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 999);
+	HAL_Delay(500);
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 100);
+	HAL_Delay(500);
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 30);
+	HAL_Delay(500);
+	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
+	HAL_Delay(1000);
     /* USER CODE END WHILE */
-    MX_USB_HOST_Process();
-
-    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 999);
-    HAL_Delay(500);
-    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 100);
-    HAL_Delay(500);
-    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 30);
-    HAL_Delay(500);
-    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
-    HAL_Delay(1000);
-
-//    for (int duty = 0; duty <= 999; duty += 5)
-//    {
-//      __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, duty);
-//      HAL_Delay(2);
-//    }
-//    for (int duty = 999; duty >= 0; duty -= 5)
-//    {
-//      __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, duty);
-//      HAL_Delay(2);
-//    }
 
     /* USER CODE BEGIN 3 */
   }
@@ -422,6 +405,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
   HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : VBUS_FS_Pin */
+  GPIO_InitStruct.Pin = VBUS_FS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(VBUS_FS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : OTG_FS_ID_Pin OTG_FS_DM_Pin OTG_FS_DP_Pin */
+  GPIO_InitStruct.Pin = OTG_FS_ID_Pin|OTG_FS_DM_Pin|OTG_FS_DP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Audio_RST_Pin */
   GPIO_InitStruct.Pin = Audio_RST_Pin;
